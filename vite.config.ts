@@ -12,9 +12,12 @@ export default defineConfig({
         }
     },
     server: {
-        // port: 5000,
+        port: 5173, // Port par défaut de Vite
         // open: true,
-        // host: true, // '0.0.0.0'
+        host: true, // '0.0.0.0' Écoute sur toutes les interfaces réseau
+        watch: {
+            usePolling: true,  // Utilise le polling pour détecter les changements de fichiers
+        }
     },
     optimizeDeps: {
         esbuildOptions: {
