@@ -4,8 +4,21 @@ services:
       context: .
     ports:
       - "5173:5173"
+    networks:
+      - traefik_network
     volumes:
       - .:/app
       - /app/node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.web.rule=Host(`${SERVER_IP}`)
+      - traefik.http.routers.web.entrypoints=web
+      - traefik.http.routers.web-secure.rule=Host(`${SERVER_IP}`)
+      - traefik.http.routers.web-secure.entrypoints=websecure
+      - traefik.http.routers.web-secure.tls.certresolver=letsencrypt
+
+networks:
+  traefik_network:
+    external: true
