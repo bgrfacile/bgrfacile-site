@@ -1,6 +1,7 @@
 import {Link} from 'react-router';
 import {ArrowRight} from 'lucide-react';
 import type {Product} from "@/types";
+import bgrsignCover from "@/assets/bgrsign_cover.png";
 
 const FEATURED_PRODUCTS: Product[] = [
     {
@@ -23,6 +24,14 @@ const FEATURED_PRODUCTS: Product[] = [
         description: 'Solution de communication entre enseignants, élèves et parents.',
         image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
         slug: 'bgrconnect'
+    },
+    {
+        id: '4',
+        title: 'BGRSign',
+        description: 'révolutionne la gestion des présences en cours grâce à une solution numérique innovante. Simplifiez l’émargement, réduisez les tâches administratives et obtenez des rapports précis en temps réel. Adoptez BGRSign pour une expérience moderne et efficace du suivi de présence.',
+        image: bgrsignCover,
+        slug: null,
+        link: 'https://bgrsign.benaja-bendo.fr/'
     }
 ];
 
@@ -42,12 +51,23 @@ export function FeaturedProducts() {
                             <div className="p-6">
                                 <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
                                 <p className="text-gray-600 mb-4">{product.description}</p>
-                                <Link
-                                    to={`/products/${product.slug}`}
-                                    className="inline-flex items-center text-blue-600 hover:text-blue-700"
-                                >
-                                    En savoir plus <ArrowRight className="ml-2" size={16}/>
-                                </Link>
+                                {product.slug ? (
+                                    <Link
+                                        to={`/products/${product.slug}`}
+                                        className="inline-flex items-center text-blue-600 hover:text-blue-700"
+                                    >
+                                        En savoir plus <ArrowRight className="ml-2" size={16}/>
+                                    </Link>
+                                ) : product.link ? (
+                                    <a
+                                        href={product.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center text-blue-600 hover:text-blue-700"
+                                    >
+                                        En savoir plus <ArrowRight className="ml-2" size={16}/>
+                                    </a>
+                                ) : null}
                             </div>
                         </div>
                     ))}
