@@ -1,17 +1,20 @@
 import {Menu, X} from 'lucide-react';
 import {Link} from 'react-router';
 import {useState} from "react";
+import LogoBgr from "@/assets/logo_short_bgrfacile.svg"
 
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
-        <header className="bg-white shadow-sm fixed w-full top-0 z-50">
+        <header className="bg-slate-100 shadow-sm fixed w-full top-0 z-50">
             <nav className="container mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
-                    <Link to="/" className="text-2xl font-bold text-blue-600">
-                        BGR-Facile
+                    <Link to="/" className="flex items-center text-2xl font-bold text-blue-600">
+                        <img src={LogoBgr} alt="Logo BGRFacile" className="w-10 h-10 mr-2" />
+                        BGRFacile
                     </Link>
+
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex space-x-8">
