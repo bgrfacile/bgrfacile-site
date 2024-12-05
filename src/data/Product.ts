@@ -3,7 +3,7 @@ import type {Product} from "@/types";
 export const PRODUCTS: Product[] = [
     {
         id: '1',
-        title: 'BGRLearn',
+        title: 'BGRBiblio',
         description: 'Une plateforme d\'apprentissage complète qui révolutionne l\'expérience éducative. Intègre des fonctionnalités de cours en ligne, des exercices interactifs, et un suivi personnalisé des progrès.',
         image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
         slug: 'bgrlearn'
