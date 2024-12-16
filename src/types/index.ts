@@ -5,6 +5,7 @@ export type Product = {
     image: string;
     slug: string|null;
     link?: string;
+    isFlagship?: boolean
 };
 
 export type TeamMember = {
