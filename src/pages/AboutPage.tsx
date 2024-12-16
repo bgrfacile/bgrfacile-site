@@ -1,7 +1,9 @@
 import {TEAM_MEMBERS} from "@/data/team.ts";
+import { useChangeDocumentTitle } from "@/hooks/use-change-document-title.ts";
 
 
 export function AboutPage() {
+    useChangeDocumentTitle('À propos');
     return (
         <main className="py-16">
             <div className="container mx-auto px-4">

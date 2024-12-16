@@ -1,7 +1,9 @@
 import {Link} from 'react-router';
 import {BLOG_POSTS} from "@/data/blog.ts";
+import { useChangeDocumentTitle } from '@/hooks/use-change-document-title.ts';
 
 export function BlogPage() {
+    useChangeDocumentTitle('Blog');
     return (
         <main className="py-16 bg-gray-50">
             <div className="container mx-auto px-4">

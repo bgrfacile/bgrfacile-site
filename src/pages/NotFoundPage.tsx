@@ -1,6 +1,8 @@
+import { useChangeDocumentTitle } from '@/hooks/use-change-document-title.ts';
 import {Link} from 'react-router';
 
 export function NotFoundPage() {
+    useChangeDocumentTitle('Not Found');
     return (
         <div className="flex items-center justify-center h-screen bg-gray-100">
             <div className="text-center">

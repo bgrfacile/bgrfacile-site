@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
+import { useChangeDocumentTitle } from '@/hooks/use-change-document-title.ts';
 
 export function ContactPage() {
+    useChangeDocumentTitle('Contact');
     const [formData, setFormData] = useState({
         name: '',
         email: '',

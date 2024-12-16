@@ -1,8 +1,10 @@
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
 import {PRODUCTS} from "@/data/Product.ts";
+import { useChangeDocumentTitle } from '@/hooks/use-change-document-title.ts';
 
 export function ProductsPage() {
+    useChangeDocumentTitle('Liste des produits');
     return (
         <main className="py-16 bg-gray-50">
             <div className="container mx-auto px-4">
