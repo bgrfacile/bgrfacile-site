@@ -32,7 +32,7 @@ export function Footer() {
                             </li>
                             <li className="flex items-center gap-2">
                                 <Phone size={16}/>
-                                <span className="text-gray-400">+33 1 23 45 67 89</span>
+                                <span className="text-gray-400">+33 X XX XX XX XX</span>
                             </li>
                             <li className="flex items-center gap-2">
                                 <MapPin size={16}/>

@@ -44,7 +44,7 @@ export function ContactPage() {
                         <div className="bg-white p-6 rounded-lg shadow-md text-center">
                             <Phone className="w-8 h-8 mx-auto mb-4 text-blue-600" />
                             <h3 className="font-semibold mb-2">Téléphone</h3>
-                            <p className="text-gray-600">+33 1 23 45 67 89</p>
+                            <p className="text-gray-600">+33 X XX XX XX XX</p>
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md text-center">
                             <MapPin className="w-8 h-8 mx-auto mb-4 text-blue-600" />
