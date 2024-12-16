@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { useChangeDocumentTitle } from '@/hooks/use-change-document-title.ts';
+import emailjs from 'emailjs-com';
+
+
+const SERVICE_ID = import.meta.env.VITE_SERVICE_ID;
+const TEMPLATE_ID = import.meta.env.VITE_TEMPLATE_ID;
+const USER_ID = import.meta.env.VITE_USER_ID;
 
 export function ContactPage() {
     useChangeDocumentTitle('Contact');
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -13,8 +20,30 @@ export function ContactPage() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle form submission
-        console.log('Form submitted:', formData);
+
+        // Validation du formulaire
+        if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+            alert('Veuillez remplir tous les champs.');
+            return;
+        }
+
+        // Envoi de l'email via EmailJS
+        emailjs.sendForm(
+            SERVICE_ID, // Remplacez par votre SERVICE_ID
+            TEMPLATE_ID, // Remplacez par votre TEMPLATE_ID
+            e.target as HTMLFormElement, // Utilisation de la référence de formulaire
+            USER_ID // Remplacez par votre USER_ID
+        )
+            .then((response) => {
+                console.log('Message envoyé avec succès!', response);
+                alert('Message envoyé avec succès!');
+                // Réinitialiser les champs du formulaire après l'envoi
+                setFormData({ name: '', email: '', subject: '', message: '' });
+            })
+            .catch((error) => {
+                console.error('Erreur lors de l\'envoi de l\'email:', error);
+                alert('Une erreur est survenue lors de l\'envoi du message.');
+            });
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
