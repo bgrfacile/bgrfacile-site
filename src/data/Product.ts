@@ -32,5 +32,14 @@ export const PRODUCTS: Product[] = [
         slug: null,
         link: 'https://bgrsign.benaja-bendo.fr/',
         isFlagship: true
+    },
+    {
+        id: '5',
+        title: 'MémoTheque',
+        description: "bibliothèque numérique de mémoires",
+        image: bgrsignCover,
+        slug: null,
+        link: 'https://bgrsign.benaja-bendo.fr/',
+        isFlagship: true
     }
 ];
