@@ -62,10 +62,12 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
-          script: |
+          script: |           
             # Se connecter au registre privé pour pull l'image
             echo ${{ secrets.REGISTRY_PASSWORD }} | docker login registry.bgrfacile.com -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
             cd /srv/www/bgrfacile
+            # Tenter d'arrêter et supprimer le container s'il existe déjà
+            docker rm -f bgrfacile || true
             # Redémarrer les services avec interruption minimale
-            docker compose -f docker-compose-prod.yml down
+            docker compose -f docker-compose-prod.yml down || true
             docker compose -f docker-compose-prod.yml up -d
