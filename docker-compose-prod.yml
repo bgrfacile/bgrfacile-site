@@ -3,7 +3,7 @@ services:
     image: registry.bgrfacile.com/bgrfacile:latest
     container_name: bgrfacile
     ports:
-      - "80:80"
+      - "3000:80"
     networks:
       - traefik-network
     environment:
@@ -13,6 +13,7 @@ services:
       - traefik.http.routers.bgrfacile.rule=Host(`${DOMAINE_NAME:-bgrfacile.com}`)
       - traefik.http.routers.bgrfacile.entrypoints=websecure
       - traefik.http.routers.bgrfacile.tls.certresolver=le
+      - traefik.http.services.bgrfacile.loadbalancer.server.port=3000
 
 networks:
   traefik-network:
