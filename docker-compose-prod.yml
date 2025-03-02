@@ -2,8 +2,6 @@ services:
   bgrfacile:
     image: registry.bgrfacile.com/bgrfacile:latest
     container_name: bgrfacile
-#    ports:
-#      - "3000:3000"
     networks:
       - traefik-network
     environment:
