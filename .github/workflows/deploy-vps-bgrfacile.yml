@@ -49,33 +49,23 @@ jobs:
       - name: Generate .env file
         run: echo "DOMAINE_NAME=${{ secrets.DOMAINE_NAME }}" > .env
 
-      - name: List workspace files
-        run: ls -alh
+      # 7. Synchroniser le fichier docker-compose-prod.yml et le .env vers le VPS via rsync
+      - name: Sync configuration files to VPS
+        run: |
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" docker-compose-prod.yml .env ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/srv/www/bgrfacile/
 
-#      # 7. Synchroniser le fichier docker-compose-prod.yml et le .env vers le VPS via rsync
-#      - name: Sync configuration files to VPS
-#        uses: appleboy/ssh-action@v0.1.6
-#        with:
-#          host: ${{ secrets.VPS_HOST }}
-#          username: ${{ secrets.VPS_USERNAME }}
-#          key: ${{ secrets.VPS_SSH_KEY }}
-#          passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
-#          script: |
-#            # Commande rsync pour synchroniser les fichiers vers le VPS
-#            rsync -avz docker-compose-prod.yml .env /srv/www/bgrfacile/
-#
-#    # 8. Déployer sur le VPS via SSH en utilisant le docker-compose-prod.yml
-#      - name: Deploy on VPS via SSH
-#        uses: appleboy/ssh-action@v0.1.6
-#        with:
-#          host: ${{ secrets.VPS_HOST }}
-#          username: ${{ secrets.VPS_USERNAME }}
-#          key: ${{ secrets.VPS_SSH_KEY }}
-#          passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
-#          script: |
-#            # Se connecter au registre privé pour pull l'image
-#            echo ${{ secrets.REGISTRY_PASSWORD }} | docker login registry.bgrfacile.com -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
-#            cd /srv/www/bgrfacile
-#            # Redémarrer les services avec interruption minimale
-#            docker compose -f docker-compose-prod.yml down
-#            docker compose -f docker-compose-prod.yml up -d
+      # 8. Déployer sur le VPS via SSH en utilisant le docker-compose-prod.yml
+      - name: Deploy on VPS via SSH
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
+          script: |
+            # Se connecter au registre privé pour pull l'image
+            echo ${{ secrets.REGISTRY_PASSWORD }} | docker login registry.bgrfacile.com -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
+            cd /srv/www/bgrfacile
+            # Redémarrer les services avec interruption minimale
+            docker compose -f docker-compose-prod.yml down
+            docker compose -f docker-compose-prod.yml up -d
