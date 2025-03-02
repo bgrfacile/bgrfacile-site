@@ -1,11 +1,9 @@
 services:
   bgrfacile:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: registry.bgrfacile.com/bgrfacile:latest
     container_name: bgrfacile
     ports:
-      - "80"
+      - "80:80"
     networks:
       - traefik-network
     environment:
