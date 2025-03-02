@@ -61,7 +61,10 @@ jobs:
             # Commande rsync pour synchroniser les fichiers vers le VPS
             rsync -avz docker-compose-prod.yml .env /srv/www/bgrfacile/
 
-      # 8. Déployer sur le VPS via SSH en utilisant le docker-compose-prod.yml
+      - name: List workspace files
+        run: ls -alh
+
+    # 8. Déployer sur le VPS via SSH en utilisant le docker-compose-prod.yml
       - name: Deploy on VPS via SSH
         uses: appleboy/ssh-action@v0.1.6
         with:
