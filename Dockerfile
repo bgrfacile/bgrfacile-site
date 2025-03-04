@@ -1,4 +1,4 @@
-# Stage 1: Build the application
+# Étape 1 : Construire l'application
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
@@ -16,9 +16,13 @@ ENV VITE_APP_TITLE=$VITE_APP_TITLE \
     VITE_USER_ID=$VITE_USER_ID
 
 COPY . .
+
+# Supprimer le dossier dist s'il existe avant de construire
+RUN rm -rf dist
+
 RUN npm run build
 
-# Stage 2: Serve the application with Nginx
+# Étape 2 : Servir l'application avec Nginx
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
