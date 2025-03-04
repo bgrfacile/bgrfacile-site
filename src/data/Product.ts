@@ -8,7 +8,7 @@ export const PRODUCTS: Product[] = [
         description: 'Plateforme d\'apprentissage interactive pour les étudiants et enseignants.',
         image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
         slug: 'bgrlearn',
-        isFlagship:true
+        isFlagship:false
     },
     {
         id: '2',
@@ -40,6 +40,6 @@ export const PRODUCTS: Product[] = [
         image: bgrsignCover,
         slug: null,
         link: 'https://bgrsign.benaja-bendo.fr/',
-        isFlagship: true
+        isFlagship: false
     }
 ];

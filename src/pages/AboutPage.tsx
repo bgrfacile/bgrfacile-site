@@ -1,5 +1,5 @@
 import {TEAM_MEMBERS} from "@/data/team.ts";
-import { useChangeDocumentTitle } from "@/hooks/use-change-document-title.ts";
+import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
 
 
 export function AboutPage() {
@@ -12,9 +12,9 @@ export function AboutPage() {
                     <h1 className="text-4xl font-bold mb-6">Notre Mission</h1>
                     <p className="text-xl text-gray-600">
                         Chez BGRFacile, nous croyons en la démocratisation de l'éducation à travers l'innovation
-                        technologique.
-                        Notre mission est de créer des outils qui rendent l'apprentissage plus accessible, engageant et
-                        efficace pour tous.
+                        technologique. Notre mission est de développer des outils numériques intuitifs et interactifs
+                        qui rendent l'apprentissage plus accessible, engageant et efficace pour tous les apprenants,
+                        quel que soit leur parcours.
                     </p>
                 </section>
 
@@ -23,13 +23,15 @@ export function AboutPage() {
                     <h2 className="text-3xl font-bold mb-8 text-center">Notre Histoire</h2>
                     <div className="bg-gray-50 rounded-lg p-8">
                         <p className="text-gray-600 mb-4">
-                            Fondée en 2020, BGRFacile est née de la vision d'un groupe d'éducateurs et de développeurs
-                            passionnés
-                            qui ont identifié le besoin d'outils éducatifs plus modernes et adaptés aux besoins actuels.
+                            Fondée en 2019, BGRFacile est née de ma volonté de créer un outil qui m'aiderait dans mes
+                            études supérieures. Au départ, j’ai rencontré de nombreux échecs, tentant encore et encore
+                            d'affiner ma vision pour proposer une solution qui pourrait réellement plaire aux
+                            utilisateurs. Malgré ces défis, j’ai mis en ligne une première version dès 2019, marquant le
+                            début d’un long processus d’amélioration et d’innovation.
                         </p>
                         <p className="text-gray-600">
-                            Aujourd'hui, nous sommes fiers de servir des milliers d'utilisateurs à travers le monde,
-                            contribuant à transformer l'expérience éducative grâce à nos solutions innovantes.
+                            Aujourd’hui, BGRFacile a évolué bien au-delà de son concept initial, s’adaptant aux besoins
+                            des étudiants et des professionnels en quête d’outils éducatifs modernes et performants.
                         </p>
                     </div>
                 </section>
