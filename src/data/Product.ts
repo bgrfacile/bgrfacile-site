@@ -30,7 +30,7 @@ export const PRODUCTS: Product[] = [
         description: 'révolutionne la gestion des présences en cours grâce à une solution numérique innovante. Simplifiez l’émargement, réduisez les tâches administratives et obtenez des rapports précis en temps réel. Adoptez BGRSign pour une expérience moderne et efficace du suivi de présence.',
         image: bgrsignCover,
         slug: null,
-        link: 'https://bgrsign.benaja-bendo.fr/',
+        link: 'https://bgrsign.bgrfacile.com/',
         isFlagship: true
     },
     {
@@ -39,7 +39,7 @@ export const PRODUCTS: Product[] = [
         description: "bibliothèque numérique de mémoires",
         image: bgrsignCover,
         slug: null,
-        link: 'https://bgrsign.benaja-bendo.fr/',
+        link: 'https://memotheque.bgrfacile.com/',
         isFlagship: false
     }
 ];
