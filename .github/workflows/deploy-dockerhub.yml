@@ -1,95 +1,95 @@
-name: Deploy to VPS via DockerHub
+# name: Deploy to VPS via DockerHub
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
 
-    steps:
-      # 1. Récupérer le code du dépôt
-      - name: Checkout repository
-        uses: actions/checkout@v3
+#     steps:
+#       # 1. Récupérer le code du dépôt
+#       - name: Checkout repository
+#         uses: actions/checkout@v3
 
-      # 2. Préparer l'outil de build Docker
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+#       # 2. Préparer l'outil de build Docker
+#       - name: Set up Docker Buildx
+#         uses: docker/setup-buildx-action@v2
 
-      # 3. Se connecter à Docker Hub avec les identifiants (secrets)
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#       # 3. Se connecter à Docker Hub avec les identifiants (secrets)
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v2
+#         with:
+#           username: ${{ secrets.DOCKERHUB_USERNAME }}
+#           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # 4. Construire l'image Docker et la pousser sur Docker Hub
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/bgrfacile:latest
-          push: true
-          build-args: |
-            VITE_APP_TITLE=${{ secrets.VITE_APP_TITLE }}
-            VITE_SERVICE_ID=${{ secrets.VITE_SERVICE_ID }}
-            VITE_TEMPLATE_ID=${{ secrets.VITE_TEMPLATE_ID }}
-            VITE_USER_ID=${{ secrets.VITE_USER_ID }}
+#       # 4. Construire l'image Docker et la pousser sur Docker Hub
+#       - name: Build and push Docker image
+#         uses: docker/build-push-action@v4
+#         with:
+#           context: .
+#           tags: ${{ secrets.DOCKERHUB_USERNAME }}/bgrfacile:latest
+#           push: true
+#           build-args: |
+#             VITE_APP_TITLE=${{ secrets.VITE_APP_TITLE }}
+#             VITE_SERVICE_ID=${{ secrets.VITE_SERVICE_ID }}
+#             VITE_TEMPLATE_ID=${{ secrets.VITE_TEMPLATE_ID }}
+#             VITE_USER_ID=${{ secrets.VITE_USER_ID }}
 
-      # 5. Configurer l'accès SSH
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+#       # 5. Configurer l'accès SSH
+#       - name: Setup SSH
+#         uses: webfactory/ssh-agent@v0.9.0
+#         with:
+#           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # 6. Créer un fichier docker-compose-dockerhub.yml adapté pour Docker Hub
-      - name: Create docker-compose file for Docker Hub
-        run: |
-          cat > docker-compose-dockerhub.yml << 'EOL'
-          services:
-            bgrfacile:
-              image: ${{ secrets.DOCKERHUB_USERNAME }}/bgrfacile:latest
-              container_name: bgrfacile
-              networks:
-                - traefik-network
-              environment:
-                - DOMAINE_NAME=${DOMAINE_NAME}
-              labels:
-                - traefik.enable=true
-                - traefik.http.routers.bgrfacile.rule=Host(`${DOMAINE_NAME:-bgrfacile.com}`)
-                - traefik.http.routers.bgrfacile.entrypoints=websecure
-                - traefik.http.routers.bgrfacile.tls.certresolver=le
-                - traefik.http.services.bgrfacile.loadbalancer.server.port=3000
+#       # 6. Créer un fichier docker-compose-dockerhub.yml adapté pour Docker Hub
+#       - name: Create docker-compose file for Docker Hub
+#         run: |
+#           cat > docker-compose-dockerhub.yml << 'EOL'
+#           services:
+#             bgrfacile:
+#               image: ${{ secrets.DOCKERHUB_USERNAME }}/bgrfacile:latest
+#               container_name: bgrfacile
+#               networks:
+#                 - traefik-network
+#               environment:
+#                 - DOMAINE_NAME=${DOMAINE_NAME}
+#               labels:
+#                 - traefik.enable=true
+#                 - traefik.http.routers.bgrfacile.rule=Host(`${DOMAINE_NAME:-bgrfacile.com}`)
+#                 - traefik.http.routers.bgrfacile.entrypoints=websecure
+#                 - traefik.http.routers.bgrfacile.tls.certresolver=le
+#                 - traefik.http.services.bgrfacile.loadbalancer.server.port=3000
 
-          networks:
-            traefik-network:
-              external: true
-              name: traefik-network
-          EOL
+#           networks:
+#             traefik-network:
+#               external: true
+#               name: traefik-network
+#           EOL
 
-      # 7. Générer le fichier .env avec la variable DOMAINE_NAME
-      - name: Generate .env file
-        run: echo "DOMAINE_NAME=${{ secrets.DOMAINE_NAME }}" > .env
+#       # 7. Générer le fichier .env avec la variable DOMAINE_NAME
+#       - name: Generate .env file
+#         run: echo "DOMAINE_NAME=${{ secrets.DOMAINE_NAME }}" > .env
 
-      # 8. Synchroniser les fichiers docker-compose-dockerhub.yml et .env vers le VPS via rsync
-      - name: Sync configuration files to VPS
-        run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" docker-compose-dockerhub.yml .env ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/srv/www/bgrfacile/
+#       # 8. Synchroniser les fichiers docker-compose-dockerhub.yml et .env vers le VPS via rsync
+#       - name: Sync configuration files to VPS
+#         run: |
+#           rsync -avz -e "ssh -o StrictHostKeyChecking=no" docker-compose-dockerhub.yml .env ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/srv/www/bgrfacile/
 
-      # 9. Déployer sur le VPS via SSH en utilisant le docker-compose-dockerhub.yml
-      - name: Deploy on VPS via SSH
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
-          script: |
-            # Se connecter à Docker Hub pour pull l'image
-            echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-            cd /srv/www/bgrfacile
-            # Redémarrer les services avec interruption minimale
-            docker compose -f docker-compose-dockerhub.yml down || true
-            docker compose -f docker-compose-dockerhub.yml up -d --pull always
+#       # 9. Déployer sur le VPS via SSH en utilisant le docker-compose-dockerhub.yml
+#       - name: Deploy on VPS via SSH
+#         uses: appleboy/ssh-action@v0.1.6
+#         with:
+#           host: ${{ secrets.VPS_HOST }}
+#           username: ${{ secrets.VPS_USERNAME }}
+#           key: ${{ secrets.VPS_SSH_KEY }}
+#           passphrase: ${{ secrets.VPS_SSH_PASSPHRASE }}
+#           script: |
+#             # Se connecter à Docker Hub pour pull l'image
+#             echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+#             cd /srv/www/bgrfacile
+#             # Redémarrer les services avec interruption minimale
+#             docker compose -f docker-compose-dockerhub.yml down || true
+#             docker compose -f docker-compose-dockerhub.yml up -d --pull always
